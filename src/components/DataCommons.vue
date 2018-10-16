@@ -31,9 +31,26 @@
               url: 'http://dc.org/File2'
             }, {name: 'File3', url: 'http://dc.org/File3'}]
           },
-          'HP:1': {label: 'coronary angioplasty'},
-          'HP:2': {label: 'coronary artery bypass graft'},
-          'HP:3': {label: 'heart failure'}
+          'HP:0004761': {
+            label: 'Post-angioplasty coronary artery restenosis',
+            files: [{name: 'File1', url: 'http://dc.org/File1'}, {
+              name: 'File2',
+              url: 'http://dc.org/File2'
+            }, {name: 'File3', url: 'http://dc.org/File3'}]
+          },
+          'HP:0005145': {
+            label: 'Post-angioplasty coronary artery restenosis',
+            files: [{name: 'File1', url: 'http://dc.org/File1'}, {
+              name: 'File2',
+              url: 'http://dc.org/File2'
+            }, {name: 'File3', url: 'http://dc.org/File3'}]
+          },'HP:0005130': {
+            label: 'Restrictive heart failure',
+            files: [{name: 'File1', url: 'http://dc.org/File1'}, {
+              name: 'File2',
+              url: 'http://dc.org/File2'
+            }, {name: 'File3', url: 'http://dc.org/File3'}]
+          },
         }
       };
     },
