@@ -20,6 +20,7 @@
           <td>{{index}}</td>
           <td><a :href="monarchUrlAnchored(index)">{{value.totalCount}}</a></td>
         </tr>
+          <div class="btn btn-outline-info"><a :href="hippoUrl">Hippo Semantic Literature Search</a></div>
       </table>
     </div>
   </div>
@@ -43,12 +44,6 @@
       return {
         fields: ['Association Type', 'Count'],
         items: [],
-        geneData: '',
-        genotypeData: '',
-        variantData: '',
-        diseaseData: '',
-        literatureData: '',
-        phenotypeData: '',
         dataPacket: '',
       };
     },
@@ -79,7 +74,12 @@
         }
       },
       monarchUrlAnchored(cardType) {
-        return `https://monarchinitiative.org/${this.category}/${this.curie}#${cardType}s`;
+        if (cardType === 'literature') {
+          return `https://monarchinitiative.org/${this.category}/${this.curie}#${cardType}`;
+        }
+        else{
+          return `https://monarchinitiative.org/${this.category}/${this.curie}#${cardType}s`;
+        }
       },
     },
   };
