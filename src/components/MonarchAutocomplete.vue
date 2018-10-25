@@ -207,7 +207,7 @@ export default {
       const currentData = this.suggestions[this.current];
       if (currentData) {
         currentData['selected'] = true;
-        console.log(currentData);
+        currentData['searchTerm'] = this.value,
         this.$emit('interface', currentData);
       }
       else {
@@ -242,6 +242,7 @@ export default {
     suggestionClick(index) {
       const currentData = this.suggestions[index];
       currentData['selected'] = true;
+      currentData['searchTerm'] = this.value,
       this.$emit('interface', currentData);
       this.value = '';
       this.open = false;

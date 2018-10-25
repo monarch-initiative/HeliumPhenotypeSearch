@@ -12,6 +12,8 @@
     "bootstrap-vue": "^2.0.0-rc.11",
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.2",
+    "js-search": "^1.4.2",
+    "json-query": "^2.2.2",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },

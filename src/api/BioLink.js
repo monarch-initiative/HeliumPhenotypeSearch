@@ -329,6 +329,8 @@ export async function getSearchTermSuggestions(term, selected, numRows='10') {
   }
   if (selected.toString() === 'Phenotype') {
     params.append('prefix', 'HP');
+    params.append('prefix', 'MONDO');
+
   }
   params.append('prefix', '-OMIA');
   const returnedPromise = new Promise((resolve, reject) => {

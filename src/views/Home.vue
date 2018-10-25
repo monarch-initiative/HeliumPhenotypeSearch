@@ -14,7 +14,7 @@
         ></monarch-associations>
       </div>
       <div class="col-6" style="padding-left: 4px">
-        <data-commons :curie="selection.curie"></data-commons>
+        <assets-view :term="selection"></assets-view>
       </div>
     </div>
 
@@ -29,7 +29,7 @@
 <script>
 // @ is an alias to /src
 import MonarchAutoComplete from '@/components/MonarchAutocomplete.vue';
-import DataCommons from '@/components/DataCommons.vue';
+import AssetsView from '@/components/AssetsView.vue';
 import MonarchAssociations from "@/components/MonarchAssociations.vue";
 import ResultsTable from "@/components/ResultsTable.vue"
 
@@ -45,7 +45,7 @@ export default {
   components: {
     'monarch-associations': MonarchAssociations,
     'monarch-autocomplete': MonarchAutoComplete,
-    'data-commons': DataCommons,
+    'assets-view': AssetsView,
     'results-table': ResultsTable,
   },
   methods: {
