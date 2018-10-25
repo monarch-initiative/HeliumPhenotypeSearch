@@ -11,6 +11,7 @@
         <monarch-associations
             :category="selection.category"
             :curie="selection.curie"
+            @monarchInterface="monInterface"
         ></monarch-associations>
       </div>
       <div class="col-6" style="padding-left: 4px">
@@ -40,6 +41,7 @@ export default {
       selection: "",
       searchMore: "",
       selected: false,
+      monDone: false,
     }
   },
   components: {
@@ -52,6 +54,10 @@ export default {
     emitRowInterface(payload) {
       this.selected = true;
       this.selection = payload;
+    },
+    monInterface(payload) {
+      console.log(payload);
+      this.monDone = true;
     },
     emitInterface(payload) {
       if (payload.selected) {

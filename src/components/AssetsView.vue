@@ -96,6 +96,13 @@
       this.checkMappings();
 
     },
+    watch: {
+      term() {
+        this.fileHits = [];
+        this.setSearchIndexes();
+        this.checkMappings();
+      }
+    },
     methods: {
       checkMappings() {
         if (this.term.curie === heartDisease.curie) {
