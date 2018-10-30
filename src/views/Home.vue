@@ -20,14 +20,14 @@
       </div>
     </div>
     <div v-if="selection" class="row">
-      <div class="col-6" style="padding-right: 4px">
+      <div class="col-4" style="padding-right: 4px">
         <monarch-associations
             :category="selection.category"
             :curie="selection.curie"
             @monarchInterface="monInterface"
         ></monarch-associations>
       </div>
-      <div class="col-6" style="padding-left: 4px">
+      <div class="col-8" style="padding-left: 4px">
         <assets-view v-if="assetsReady" :term="closureData"></assets-view>
       </div>
     </div>
