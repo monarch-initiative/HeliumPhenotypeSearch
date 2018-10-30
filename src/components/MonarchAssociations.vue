@@ -1,10 +1,11 @@
 <template>
-  <div class="card">
-    <div class="card-header">Monarch Data
+  <div class="card  bg-light">
+    <div class="card-header"><strong>Monarch Association Data</strong>
+      <img style="max-height: 20px; float:right" src="../assets/img/monarch-logo.png">
     </div>
     <div class="card-body">
       <div class="p-2"><strong>Preferred Label:</strong><br/>
-        <a v-bind:href="monarchUrl"><h2>{{dataPacket.label}}</h2></a>
+        <a v-bind:href="monarchUrl"><h2>{{dataPacket.label}} <font-awesome-icon size="xs" icon="external-link-alt"/></h2></a>
       </div>
       <div class="p-2"><strong>Identifier:</strong><br/><span class="badge badge-primary badge-info badge-large">{{dataPacket.id}}</span></div>
       <div class="p-2"><strong>Description:</strong><br/>{{dataPacket.description}}</div>
@@ -18,8 +19,8 @@
           <col width="50%">
           <col width="50%">
           <tr>
-            <th>Association</th>
-            <th>Count</th>
+            <th><strong>Association</strong></th>
+            <th><strong>Count</strong></th>
           </tr>
           <tr v-for="(value, index) in dataPacket.counts">
             <td>{{firstCap(index)}}</td>
@@ -27,7 +28,7 @@
           </tr>
         </table>
       </div>
-      <div class="btn btn-outline-info my-2"><a :href="hippoUrl">Hippo Semantic Literature Search</a></div>
+    <a class="btn btn-outline-info my-2" :href="hippoUrl">Hippo Semantic Literature Search</a>
     </div>
   </div>
 </template>
@@ -94,4 +95,9 @@
     },
   };
 </script>
-<style></style>
+<style>
+  * {
+    color: #00526d;
+    font: 1.01em "Fira Sans", sans-serif;;
+  }
+</style>

@@ -1,26 +1,35 @@
 <template>
   <div class="home container-fluid p-4">
-    <h2>Helium Phenotype Search</h2>
-    <monarch-autocomplete
-        :home-search="true"
-        :auto-focus="true"
-        @interface="emitInterface"
-    />
-    <div class="btn btn-sm btn-outline-secondary" style="margin-top: 10px; margin-right: 3px">
-      <router-link :to="exampleUrls.example1.id">{{exampleUrls.example1.name}}</router-link></div>
-    <div class="btn btn-sm btn-outline-secondary" style="margin-top: 10px; margin-left: 3px">
-      <router-link :to="exampleUrls.example2.id">{{exampleUrls.example2.name}}</router-link></div>
-  <div v-if="selection" class="row py-2">
-    <div class="col-6" style="padding-right: 4px">
-      <monarch-associations
-          :category="selection.category"
-          :curie="selection.curie"
-          @monarchInterface="monInterface"
-      ></monarch-associations>
+    <div class="card bg-light mb-3">
+      <div class="card-body"><h2><strong>Helium Phenotype Search</strong></h2>
+        <monarch-autocomplete
+            :home-search="true"
+            :auto-focus="true"
+            @interface="emitInterface"
+        />
+        <router-link
+            class="btn btn-sm btn-outline-info"
+            style="margin-top: 10px; margin-right: 3px"
+            :to="exampleUrls.example1.id">{{exampleUrls.example1.name}}
+        </router-link>
+        <router-link
+            class="btn btn-sm btn-outline-info"
+            style="margin-top: 10px; margin-right: 3px"
+            :to="exampleUrls.example2.id">{{exampleUrls.example2.name}}
+        </router-link>
+      </div>
     </div>
-    <div class="col-6" style="padding-left: 4px">
-      <assets-view v-if="assetsReady" :term="closureData"></assets-view>
-    </div>
+    <div v-if="selection" class="row">
+      <div class="col-6" style="padding-right: 4px">
+        <monarch-associations
+            :category="selection.category"
+            :curie="selection.curie"
+            @monarchInterface="monInterface"
+        ></monarch-associations>
+      </div>
+      <div class="col-6" style="padding-left: 4px">
+        <assets-view v-if="assetsReady" :term="closureData"></assets-view>
+      </div>
     </div>
 
     <div v-if="!selected && searchMore">

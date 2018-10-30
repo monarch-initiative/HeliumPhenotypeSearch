@@ -1,18 +1,37 @@
 <template>
-  <div class="card">
-    <div class="card-header"> Helium CommonsShare Assets</div>
+  <div class="card bg-light mb-3" style="height: 100%">
+    <div class="card-header"><strong>Helium CommonsShare Assets</strong></div>
     <div class="card-body">
       <table style="width:100%">
-        <th>File</th>
-        <th>Matching Term(s)</th>
-        <th>Other Term(s)</th>
+        <tr>
+          <th><strong>File</strong></th>
+          <th><strong>Matching Term</strong></th>
+          <th><strong>Other Term(s)</strong></th>
+        </tr>
         <tr v-if="assets" v-for="fh in fileHits">
-          <td><a :href="fh.url">{{fh.name}}</a></td>
           <td>
-            <span class="badge badge-primary badge-info badge-large" style="text-align: left">{{fh.termLabel}}<br/>{{fh.term}}</span>
+            <div class="py-1"><a :href="fh.url">{{fh.name}}</a></div>
+          </td>
+          <td>
+            <div class="py-1">
+              <span v-if="fh.termLabel"
+                  class="badge badge-primary badge-info badge-large"
+                  style="text-align: left">
+                {{fh.termLabel}}<br/>
+                {{fh.term}}</span>
+              <span v-else
+                    class="badge badge-primary badge-info badge-large"
+                    style="text-align: left"
+              >{{fh.term}}</span>
+            </div>
           </td>
           <td v-for="oterm in fh.mapped">
-            <span class="badge badge-primary badge-warning">{{oterm}}</span>
+            <div
+                class="py-1">
+              <span class="badge badge-primary">
+                {{oterm}}
+              </span>
+            </div>
           </td>
         </tr>
       </table>
@@ -158,6 +177,7 @@
             hit.termLabel = this.curieLabel(term);
             hit.terms.splice( hit.terms.indexOf(term), 1 );
             hit.mapped = hit.terms.map(term => this.curieLabel(term));
+            hit.mapped = hit.mapped.filter(term => term);
             this.fileHits.push(hit);
           });
           this.assets = true;

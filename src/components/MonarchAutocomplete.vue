@@ -29,13 +29,12 @@
         class="input-group-append">
         <button
           v-b-tooltip.topright
-          class="btn xbtn-sm btn-light py-0"
+          class="btn xbtn-sm btn-outline-info py-0"
           type="button"
           title="Show all matching results"
           @click="showMore"
         >
           search
-          <!--<i class="p-0 m-0/>-->
         </button>
       </div>
       <div
