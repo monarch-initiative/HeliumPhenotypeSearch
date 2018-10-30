@@ -6,17 +6,21 @@
         :auto-focus="true"
         @interface="emitInterface"
     />
-    <div v-if="selection" class="row py-2">
-      <div class="col-6" style="padding-right: 4px">
-        <monarch-associations
-            :category="selection.category"
-            :curie="selection.curie"
-            @monarchInterface="monInterface"
-        ></monarch-associations>
-      </div>
-      <div class="col-6" style="padding-left: 4px">
-        <assets-view v-if="assetsReady" :term="closureData"></assets-view>
-      </div>
+    <div class="btn btn-sm btn-outline-secondary" style="margin-top: 10px; margin-right: 3px">
+      <router-link :to="exampleUrls.example1.id">{{exampleUrls.example1.name}}</router-link></div>
+    <div class="btn btn-sm btn-outline-secondary" style="margin-top: 10px; margin-left: 3px">
+      <router-link :to="exampleUrls.example2.id">{{exampleUrls.example2.name}}</router-link></div>
+  <div v-if="selection" class="row py-2">
+    <div class="col-6" style="padding-right: 4px">
+      <monarch-associations
+          :category="selection.category"
+          :curie="selection.curie"
+          @monarchInterface="monInterface"
+      ></monarch-associations>
+    </div>
+    <div class="col-6" style="padding-left: 4px">
+      <assets-view v-if="assetsReady" :term="closureData"></assets-view>
+    </div>
     </div>
 
     <div v-if="!selected && searchMore">
@@ -38,6 +42,16 @@ export default {
   name: 'home',
   data(){
     return {
+      exampleUrls: {
+        'example1': {
+          'name':'Abnormality of skeletal morphology',
+          'id': '/HP:0011842'
+        },
+        'example2': {
+          'name':'heart disease',
+          'id': '/MONDO:0005267'
+        },
+      },
       selection: "",
       searchMore: "",
       closureData: {},
