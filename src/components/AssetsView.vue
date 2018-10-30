@@ -1,40 +1,40 @@
 <template>
-  <div class="card bg-light mb-3" style="height: 100%">
+  <div class="card bg-light mb-3" style="height: 100%;">
     <div class="card-header"><strong>Helium CommonsShare Assets</strong></div>
     <div class="card-body">
-      <table style="width:100%">
-        <tr>
-          <th><strong>File</strong></th>
-          <th><strong>Matching Term</strong></th>
-          <th><strong>Other Term(s)</strong></th>
-        </tr>
-        <tr v-if="assets" v-for="fh in fileHits">
-          <td>
-            <div class="py-1"><a :href="fh.url">{{fh.name}}</a></div>
-          </td>
-          <td>
-            <div class="py-1">
-              <span v-if="fh.termLabel"
+      <b-table
+          small
+          hover
+          :items="fileHits"
+          :fields="fields"
+          @row-clicked="selectCount"
+      >
+        <!-- A virtual column -->
+        <template slot="file" slot-scope="data">
+          <a :href="data.item.url">{{data.item.name}}</a>
+        </template>
+        <template slot="matching_tag" slot-scope="data">
+          <span v-if="data.item.termLabel"
                   class="badge badge-primary badge-info badge-large"
-                  style="text-align: left">
-                {{fh.termLabel}}<br/>
-                {{fh.term}}</span>
-              <span v-else
-                    class="badge badge-primary badge-info badge-large"
-                    style="text-align: left"
-              >{{fh.term}}</span>
-            </div>
-          </td>
-          <td v-for="oterm in fh.mapped">
+          style="text-align: left">
+          {{data.item.termLabel}}<br/>
+          {{data.item.term}}</span>
+          <span v-else
+                class="badge badge-primary badge-info badge-large"
+                style="text-align: left"
+          >{{data.item.term}}<br/></span>
+        </template>
+        <template slot="other_terms" slot-scope="data">
+          <div v-for="oterm in data.item.mapped">
             <div
                 class="py-1">
-              <span class="badge badge-primary">
-                {{oterm}}
-              </span>
+            <span class="badge badge-primary">
+            {{oterm}}
+            </span>
             </div>
-          </td>
-        </tr>
-      </table>
+          </div>
+        </template>
+      </b-table>
       <div v-if="!assets">
         No assets
       </div>
@@ -44,8 +44,6 @@
 <script>
   import heartDisease from "@/assets/json/heartDisease.json";
   import skeletalDisease from "@/assets/json/skeletalDisease.json";
-  import * as BL from '@/api/BioLink';
-
   const jsSearch = require("js-search");
 
   export default {
@@ -58,6 +56,20 @@
     },
     data() {
       return {
+        fields: [
+          {
+            key: 'file',
+            label: 'File',
+          },
+          {
+            key: 'matching_tag',
+            label: 'Matching Term',
+          },
+          {
+            key: 'other_terms',
+            label: 'Other Terms(s)',
+          }
+        ],
         fileHits: [],
         assets: false,
         termMap: {
@@ -138,6 +150,7 @@
       };
     },
     mounted() {
+      this.fileHits = [];
       this.setSearchIndexes();
       this.checkMappings();
     },
@@ -175,9 +188,9 @@
           results.forEach(hit => {
             hit.term = term;
             hit.termLabel = this.curieLabel(term);
-            hit.terms.splice( hit.terms.indexOf(term), 1 );
-            hit.mapped = hit.terms.map(term => this.curieLabel(term));
-            hit.mapped = hit.mapped.filter(term => term);
+            let otherTerms = hit.terms.filter(elem => term !== elem);
+            hit.mapped = otherTerms.map(elem => this.curieLabel(elem));
+            hit.mapped = hit.mapped.filter(e => typeof e === 'string' && e);
             this.fileHits.push(hit);
           });
           this.assets = true;
@@ -189,6 +202,9 @@
         } else {
           return ''
         }
+      },
+      selectCount(row) {
+        console.log(row);
       },
     },
   };
