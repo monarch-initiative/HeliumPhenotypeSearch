@@ -15,7 +15,7 @@
         ></monarch-associations>
       </div>
       <div class="col-6" style="padding-left: 4px">
-        <assets-view :term="selection"></assets-view>
+        <assets-view v-if="assetsReady" :term="closureData"></assets-view>
       </div>
     </div>
 
@@ -40,8 +40,9 @@ export default {
     return {
       selection: "",
       searchMore: "",
+      closureData: {},
       selected: false,
-      monDone: false,
+      assetsReady: false,
     }
   },
   components: {
@@ -50,14 +51,31 @@ export default {
     'assets-view': AssetsView,
     'results-table': ResultsTable,
   },
+  mounted(){
+    if (this.$route.params.id ) {
+      let category = '';
+      if (this.$route.params.id.includes('MONDO')) {
+        category = 'disease';
+      }
+      if (this.$route.params.id.includes('HP')) {
+        category = 'phenotype';
+      }
+      this.selection = {
+        "curie": this.$route.params.id,
+        "category": category,
+      }
+    }
+  },
   methods: {
     emitRowInterface(payload) {
       this.selected = true;
       this.selection = payload;
+
     },
     monInterface(payload) {
-      console.log(payload);
-      this.monDone = true;
+      this.closureData = payload;
+      this.assetsReady = true;
+      this.$router.push(`/${this.closureData.id}`);
     },
     emitInterface(payload) {
       if (payload.selected) {

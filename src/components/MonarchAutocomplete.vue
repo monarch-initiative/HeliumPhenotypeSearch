@@ -213,7 +213,7 @@ export default {
       else {
         this.showMore();
       }
-      this.value = '';
+      // this.value = '';
       this.open = false;
       this.suggestions = [];
     },
@@ -244,7 +244,7 @@ export default {
       currentData['selected'] = true;
       currentData['searchTerm'] = this.value,
       this.$emit('interface', currentData);
-      this.value = '';
+      // this.value = '';
       this.open = false;
       this.suggestions = [];
     },

@@ -1,11 +1,22 @@
 <template>
   <div class="card">
-    <div class="card-header"> Data Commons Assets</div>
+    <div class="card-header"> Helium CommonsShare Assets</div>
     <div class="card-body">
-      <div v-if="assets" v-for="fh in fileHits">
-        <a :href="fh.url">{{fh.name}}</a><span class="badge badge-primary badge-success badge-large mx-5">{{fh.term}}</span>
-      </div>
-      <div v-else>
+      <table style="width:100%">
+        <th>File</th>
+        <th>Matching Term(s)</th>
+        <th>Other Term(s)</th>
+        <tr v-if="assets" v-for="fh in fileHits">
+          <td><a :href="fh.url">{{fh.name}}</a></td>
+          <td>
+            <span class="badge badge-primary badge-info badge-large" style="text-align: left">{{fh.termLabel}}<br/>{{fh.term}}</span>
+          </td>
+          <td v-for="oterm in fh.mapped">
+            <span class="badge badge-primary badge-warning">{{oterm}}</span>
+          </td>
+        </tr>
+      </table>
+      <div v-if="!assets">
         No assets
       </div>
     </div>
@@ -14,6 +25,8 @@
 <script>
   import heartDisease from "@/assets/json/heartDisease.json";
   import skeletalDisease from "@/assets/json/skeletalDisease.json";
+  import * as BL from '@/api/BioLink';
+
   const jsSearch = require("js-search");
 
   export default {
@@ -28,6 +41,20 @@
       return {
         fileHits: [],
         assets: false,
+        termMap: {
+          "HP:0001166": 'Arachnodactyly',
+          "HP:0004935": 'Pulmonary artery atresia',
+          "MP:0000548": 'long limbs',
+          "HP:0030148": "Heart murmur",
+          "MONDO:0005068": 'myocardial infarction (disease)',
+          "MONDO:0001640": 'gonococcal spondylitis',
+          "HP:0001263": 'histoplasmosis retinitis',
+          "MONDO:0005015": 'diabetes mellitus (disease)',
+          "HP:0001658": "Myocardial infarction",
+          "HP:0001640": 'Cardiomegaly',
+          "HP:0001161": "Hand polydactyly",
+          "HP:0005068": "Absent styloid process of ulna",
+        },
         assetMappings: [
           {
             "name": "NWD100953.recab.cram.crai",
@@ -94,41 +121,55 @@
     mounted() {
       this.setSearchIndexes();
       this.checkMappings();
-
     },
     watch: {
       term() {
         this.fileHits = [];
-        this.setSearchIndexes();
         this.checkMappings();
-      }
+      },
     },
     methods: {
       checkMappings() {
-        if (this.term.curie === heartDisease.curie) {
+        if (this.term.id === heartDisease.curie) {
           heartDisease.descendents.forEach(term => this.queryMeta(term));
         }
-        if (this.term.curie === skeletalDisease.curie) {
+        else if (this.term.id === skeletalDisease.curie) {
           skeletalDisease.descendents.forEach(term => this.queryMeta(term));
         }
+        else if (heartDisease.descendents.includes(this.term.label.toLowerCase())) {
+          heartDisease.descendents.forEach(term => this.queryMeta(term));
+        }
+        else if (skeletalDisease.descendents.includes(this.term.label.toLowerCase())) {
+          skeletalDisease.descendents.forEach(term => this.queryMeta(term));
+        }
+
       },
       setSearchIndexes() {
         this.search = new jsSearch.Search('name');
         this.search.addIndex('terms');
         this.search.addIndex('url');
-        this.search.addIndex('study');
+        this.search.addDocuments(this.assetMappings);
       },
       queryMeta(term) {
-        this.search.addDocuments(this.assetMappings);
         const results = this.search.search(term);
         if (results.length){
           results.forEach(hit => {
             hit.term = term;
+            hit.termLabel = this.curieLabel(term);
+            hit.terms.splice( hit.terms.indexOf(term), 1 );
+            hit.mapped = hit.terms.map(term => this.curieLabel(term));
             this.fileHits.push(hit);
           });
           this.assets = true;
         }
-      }
+      },
+      curieLabel(term) {
+        if (term in this.termMap) {
+          return this.termMap[term]
+        } else {
+          return ''
+        }
+      },
     },
   };
 </script>

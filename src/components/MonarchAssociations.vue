@@ -6,22 +6,28 @@
       <div class="p-2"><strong>Preferred Label:</strong><br/>
         <a v-bind:href="monarchUrl"><h2>{{dataPacket.label}}</h2></a>
       </div>
-      <div class="p-2"><strong>Identifier:</strong><br/>{{dataPacket.id}}</div>
+      <div class="p-2"><strong>Identifier:</strong><br/><span class="badge badge-primary badge-info badge-large">{{dataPacket.id}}</span></div>
       <div class="p-2"><strong>Description:</strong><br/>{{dataPacket.description}}</div>
       <div class="p-2"><strong>Synonyms:</strong><br/>
-        <h5> <span class="badge badge-primary badge-info badge-large mx-1"
+        <h5> <span class="badge badge-info badge-large mx-1"
                    v-for="syn in dataPacket.synonyms">
           {{syn.val}}</span></h5>
       </div>
-      <table style="width:100%">
-        <th>Association</th>
-        <th>Count</th>
-        <tr v-for="(value, index) in dataPacket.counts">
-          <td>{{index}}</td>
-          <td><a :href="monarchUrlAnchored(index)">{{value.totalCount}}</a></td>
-        </tr>
-          <div class="btn btn-outline-info"><a :href="hippoUrl">Hippo Semantic Literature Search</a></div>
-      </table>
+      <div class="p-2">
+        <table width="50%">
+          <col width="50%">
+          <col width="50%">
+          <tr>
+            <th>Association</th>
+            <th>Count</th>
+          </tr>
+          <tr v-for="(value, index) in dataPacket.counts">
+            <td>{{firstCap(index)}}</td>
+            <td><a :href="monarchUrlAnchored(index)">{{value.totalCount}}</a></td>
+          </tr>
+        </table>
+      </div>
+      <div class="btn btn-outline-info my-2"><a :href="hippoUrl">Hippo Semantic Literature Search</a></div>
     </div>
   </div>
 </template>
@@ -68,10 +74,14 @@
         try {
           const searchResponse = await BL.getNodeSummary(nodeID, nodeType);
           this.dataPacket = searchResponse;
+          this.$emit('monarchInterface', this.dataPacket);
         }
         catch (e) {
           console.log('nodeResponse ERROR', e, this);
         }
+      },
+      firstCap(term) {
+        return  term.charAt(0).toUpperCase() + term.substr(1);
       },
       monarchUrlAnchored(cardType) {
         if (cardType === 'literature') {
