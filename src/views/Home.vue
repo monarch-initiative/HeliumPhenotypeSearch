@@ -66,19 +66,14 @@ export default {
     'results-table': ResultsTable,
   },
   mounted(){
-    if (this.$route.params.id ) {
-      let category = '';
-      if (this.$route.params.id.includes('MONDO')) {
-        category = 'disease';
-      }
-      if (this.$route.params.id.includes('HP')) {
-        category = 'phenotype';
-      }
-      this.selection = {
-        "curie": this.$route.params.id,
-        "category": category,
-      }
+    if (this.$route.params.id) {
+      this.changeRouted();
     }
+  },
+  watch: {
+    '$route.params.id'(id) {
+      this.changeRouted();
+    },
   },
   methods: {
     emitRowInterface(payload) {
@@ -101,6 +96,19 @@ export default {
         this.selection = '';
       }
     },
+    changeRouted() {
+      let category = '';
+      if (this.$route.params.id.includes('MONDO')) {
+        category = 'disease';
+      }
+      if (this.$route.params.id.includes('HP')) {
+        category = 'phenotype';
+      }
+      this.selection = {
+        "curie": this.$route.params.id,
+        "category": category,
+      }
+    }
   },
 }
 </script>
