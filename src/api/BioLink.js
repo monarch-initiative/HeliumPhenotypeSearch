@@ -42,6 +42,7 @@ const servers = {
 
 const serverConfiguration = servers.development;
 const biolink = serverConfiguration.biolink_url;
+const sciGraph = serverConfiguration.scigraph_url;
 
 function getBiolinkAnnotation(cardType) {
   let result = `${cardType}s`;
@@ -401,7 +402,7 @@ export function getNodeLabelByCurie(curie) {
 }
 
 export function getDbXrefs(curie) {
-  const baseUrl = `https://scigraph-ontology.monarchinitiative.org/scigraph/graph/${curie}`;
+  const baseUrl = `${sciGraph}graph/${curie}`;
   const returnedPromise = new Promise((resolve, reject) => {
     axios.get(baseUrl)
       .then((resp) => {
