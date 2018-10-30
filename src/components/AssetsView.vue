@@ -1,6 +1,6 @@
 <template>
   <div class="card bg-light mb-3" style="height: 100%;">
-    <div class="card-header"><strong>CommonsShare Assets</strong></div>
+    <div class="card-header"><strong>CommonsShare Data Assets</strong></div>
     <div class="card-body">
       <b-table
           small
@@ -34,7 +34,7 @@
           <div v-for="oterm in data.item.mapped">
             <div
                 class="py-1">
-            <span class="badge badge-primary">
+            <span class="badge badge-secondary">
             {{oterm}}
             </span>
             </div>
@@ -65,23 +65,28 @@
         fields: [
           {
             key: 'title',
-            label: 'Title'
+            label: 'Title',
+            class: 'fieldHeaders',
           },
           {
             key: 'location',
-            label: 'Location'
+            label: 'Location',
+            class: 'fieldHeaders',
           },
           {
             key: 'file',
             label: 'File',
+            class: 'fieldHeaders',
           },
           {
             key: 'matching_tag',
             label: 'Matching Term',
+            class: 'fieldHeaders',
           },
           {
             key: 'other_terms',
-            label: 'Other Terms(s)',
+            label: 'Other Annotations',
+            class: 'fieldHeaders',
           }
         ],
         fileHits: [],
@@ -266,6 +271,8 @@
     },
   };
 </script>
-<style></style>
+<style>
+  .fieldHeaders { font-weight: bold; }
+</style>
 
 

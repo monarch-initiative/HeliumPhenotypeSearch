@@ -7,16 +7,16 @@
             :auto-focus="true"
             @interface="emitInterface"
         />
-        <router-link
-            class="btn btn-sm btn-outline-info"
-            style="margin-top: 10px; margin-right: 3px"
-            :to="exampleUrls.example1.id">{{exampleUrls.example1.name}}
-        </router-link>
-        <router-link
-            class="btn btn-sm btn-outline-info"
-            style="margin-top: 10px; margin-right: 3px"
-            :to="exampleUrls.example2.id">{{exampleUrls.example2.name}}
-        </router-link>
+        <!--<router-link-->
+            <!--class="btn btn-sm btn-outline-info"-->
+            <!--style="margin-top: 10px; margin-right: 3px"-->
+            <!--:to="exampleUrls.example1.id">{{exampleUrls.example1.name}}-->
+        <!--</router-link>-->
+        <!--<router-link-->
+            <!--class="btn btn-sm btn-outline-info"-->
+            <!--style="margin-top: 10px; margin-right: 3px"-->
+            <!--:to="exampleUrls.example2.id">{{exampleUrls.example2.name}}-->
+        <!--</router-link>-->
       </div>
     </div>
     <div v-if="selection" class="row">

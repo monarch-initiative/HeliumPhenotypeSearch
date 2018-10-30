@@ -16,7 +16,7 @@
         class="form-control xform-control-sm"
         type="text"
         autofocus="autoFocus"
-        placeholder="Search"
+        placeholder="Search for diseases and phenotypes ex: 'Heart disease' or 'abnormality of skeletal morphology'"
         @input="debounceInput"
         @keydown="inputChanged"
         @keydown.enter="enter"

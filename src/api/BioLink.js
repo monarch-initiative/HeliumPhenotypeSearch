@@ -400,6 +400,26 @@ export function getNodeLabelByCurie(curie) {
   return returnedPromise;
 }
 
+export function getDbXrefs(curie) {
+  const baseUrl = `https://scigraph-ontology.monarchinitiative.org/scigraph/graph/${curie}`;
+  const returnedPromise = new Promise((resolve, reject) => {
+    axios.get(baseUrl)
+      .then((resp) => {
+        const responseData = resp;
+        if (typeof responseData !== 'object') {
+          reject(responseData);
+        }
+        else {
+          resolve(responseData);
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+  return returnedPromise;
+}
+
 export function comparePhenotypes(phenotypesList, geneList, species = 'all', mode = 'search') {
   const baseUrl = 'https://beta.monarchinitiative.org/analyze/phenotypes.json?';
   const params = new URLSearchParams();
