@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="row">
-        <div class="col-4">
+        <div class="col-4" style="padding-left: 20px">
          <h3><strong>Description: </strong></h3>
           <br/><p style="font-size: 1.3em">{{dataPacket.description}}</p>
         </div>
@@ -33,15 +33,19 @@
           <div class="mt-3">
           <a
               target="_blank"
+              id="hippoLink"
               class="btn btn-outline-info btn-block my-2"
-              v-b-tooltip
-              title="Retrieves co-mentions of genes, phentoypes, diseases, variants, etc. in the literature"
+
               :href="hippoUrl">Hippo Literature Query
           </a>
+            <b-tooltip
+                target="hippoLink"
+                title="Retrieves co-mentions of genes, phentoypes, diseases, variants, etc. in the literature"
+                placement="bottomright"></b-tooltip>
           </div>
         </div>
         <div class="col-4">
-          <h3><strong>Xrefs:</strong>
+          <h3><strong>Cross References:</strong>
             <h5> <span
                 class="badge badge-secondary badge-large mx-1"
                 v-for="eq in xRefs">{{eq}}</span>
@@ -115,32 +119,22 @@
       },
     },
   };
-  const thing = {
-    "nodes": [{
-      "id": "MONDO:0005267",
-      "lbl": "heart disease",
-      "meta": {
-        "types": ["disease", "cliqueLeader", "Node", "Class"],
-        "synonym": ["disease of heart", "Heart Disorder", "heart disease", "cardiac disease", "disorder of heart", "Heart Disease", "Heart trouble"],
-        "http://www.geneontology.org/formats/oboInOwl#id": ["MONDO:0005267"],
-        "http://www.geneontology.org/formats/oboInOwl#hasExactSynonym": ["disease of heart", "Heart Disorder", "heart disease", "cardiac disease", "Heart Disease", "Heart trouble"],
-        "http://www.geneontology.org/formats/oboInOwl#hasDbXref": ["ICD9:429.9", "NCIT:C3079", "EFO:0003777", "SCTID:56265001", "MESH:D006331", "ICD10:I51.9", "DOID:114", "COHD:321588", "UMLS:C0018799"],
-        "http://www.w3.org/2000/01/rdf-schema#label": ["heart disease"],
-        "http://www.geneontology.org/formats/oboInOwl#hasRelatedSynonym": ["disorder of heart"],
-        "definition": ["A disease involving the heart."],
-        "http://purl.obolibrary.org/obo/IAO_0000115": ["A disease involving the heart."],
-        "category": ["disease"]
-      }
-    }], "edges": [], "meta": {}
-  }
 </script>
 <style >
-  * {
+  h3 {
     color: #00526d;
-    font: 1.01em "Fira Sans", sans-serif;;
   }
 
+  /** {*/
+    /*color: #00526d;*/
+    /*font: 1.01em "Fira Sans", sans-serif;*/
+  /*}*/
+
   .hlink{
-    color: #00526d;
+    color: #383d41;
   }
+  p{
+    color: #383d41;
+  }
+
 </style>

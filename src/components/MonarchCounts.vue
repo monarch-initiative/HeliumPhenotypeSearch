@@ -1,6 +1,6 @@
 <template>
 
-  <div class="card bg-light" style="height: 100%">
+  <div class="card bg-light" style="height: 100%; max-height: 450px">
     <div class="card-header"><strong>Monarch Association Counts</strong>
       <img style="max-height: 20px; float:right" src="../assets/img/monarch-logo.png">
     </div>
@@ -10,6 +10,7 @@
         hover
         :items="items"
         :fields="fields"
+        @row-clicked="nodePage"
     >
       <!-- A virtual column -->
       <template slot="association" slot-scope="data">
@@ -62,6 +63,9 @@
           'count': {'url': key, 'count': value['totalCount']},
         }
       },
+      nodePage(item) {
+        location.assign(this.monarchUrlAnchored(item.association));
+      }
     }
   };
 </script>

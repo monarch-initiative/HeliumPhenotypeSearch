@@ -1,6 +1,8 @@
 <template>
   <div class="card bg-light mb-3" style="height: 100%;">
-    <div class="card-header"><strong>CommonsShare Data Assets</strong></div>
+    <div class="card-header"><strong>CommonsShare Data Assets</strong>
+      <img style="max-height: 20px; float:right" src="../assets/img/CommonsShare.png">
+    </div>
     <div class="card-body">
       <b-table
           small
@@ -20,7 +22,7 @@
         </template>
         <template slot="matching_tag" slot-scope="data">
           <div v-for="mt in data.item.matching_terms">
-            <span class="badge badge-info">{{mt.label}} <br/> {{mt.id}}</span>
+            <router-link :to="mt.id"><span class="badge badge-info">{{mt.label}} <br/> {{mt.id}}</span></router-link>
           </div>
 
         </template>
@@ -28,7 +30,7 @@
           <div v-for="oterm in data.item.other_terms">
             <div
                 class="py-1">
-              <span class="badge badge-secondary">{{oterm.label}} <br/> {{oterm.id}}</span>
+              <router-link :to="oterm.id"><span class="badge badge-secondary">{{oterm.label}} <br/> {{oterm.id}}</span></router-link>
             </div>
           </div>
         </template>
@@ -85,9 +87,10 @@
           'location': 'Helium',
           'name': 'NWD100953.recab.cram.crai',
           'study': 'study',
-          'terms': [{'id': 'HP:0001166', 'label': 'Arachnodactyly'},
+          'terms': [
+            {'id': 'HP:0001166', 'label': 'Arachnodactyly'},
             {'id': 'HP:0004935', 'label': 'Pulmonary artery atresia'},
-            {'id': 'MP:0000548', 'label': 'long limbs'},
+            {'id': 'HP:0003861', 'label': 'Broad diaphyses of the upper limbs'},
             {'id': 'HP:0030148', 'label': 'Heart murmur'}],
           'url': 'https://helium.commonsshare.org/resource/36b009e9ecfa42b0bc51bb8c56394131/'
         },
@@ -97,7 +100,7 @@
             'study': 'study',
             'terms': [{'id': 'HP:0001166', 'label': 'Arachnodactyly'},
               {'id': 'HP:0004935', 'label': 'Pulmonary artery atresia'},
-              {'id': 'MP:0000548', 'label': 'long limbs'},
+              {'id': 'HP:0003861', 'label': 'Broad diaphyses of the upper limbs'},
               {'id': 'HP:0030148', 'label': 'Heart murmur'}],
             'url': 'https://helium.commonsshare.org/resource/bf4e8824d1de43928b10ef0e15384394/'
           },
@@ -212,6 +215,8 @@
         }
         else if (skeletalDisease.descendents.includes(this.term.id)) {
           this.queryMeta(skeletalDisease);
+        } else {
+          this.queryMeta({descendents: [this.term.id]})
         }
       },
       queryMeta(closure) {
