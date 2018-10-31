@@ -253,6 +253,7 @@ export default {
           searchTerm: this.value,
           category: 'Phenotype',
       });
+      this.value = '';
     },
     clearSearch() {
       this.suggestions = [];
