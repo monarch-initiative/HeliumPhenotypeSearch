@@ -1,43 +1,53 @@
 <template>
   <div class="card  bg-light">
-    <div class="card-header"><strong>Monarch Knowledge Association</strong>
+    <div class="card-header"><strong>Monarch Knowledge Summary</strong>
       <img style="max-height: 20px; float:right" src="../assets/img/monarch-logo.png">
     </div>
     <div class="card-body">
-      <div class="p-2"><strong>Preferred Label:</strong><br/>
-        <a class="hlink" v-bind:href="monarchUrl"><h2>{{dataPacket.label}} <font-awesome-icon size="xs" icon="external-link-alt"/></h2></a>
+      <div class="row">
+        <div class="col-4" style="padding-left: 20px">
+          <h3><strong>Preferred Label: </strong> <br/> <a class="hlink" v-bind:href="monarchUrl"><span style="font-size: 1.2em">{{dataPacket.label}} </span>
+            <font-awesome-icon size="xs" icon="external-link-alt"/>
+          </a></h3>
+        </div>
+        <div class="col-4">
+          <h3><strong>Primary Identifier:</strong></h3>
+          <h3><span class="badge badge-primary badge-info">{{dataPacket.id}}</span></h3>
+        </div>
+        <div class="col-4">
+          <h3><strong>Synonyms:</strong></h3>
+          <h5><span class="badge badge-info badge-large mx-1"
+                    v-for="syn in dataPacket.synonyms">
+          {{syn.val}}
+            </span>
+          </h5>
+        </div>
       </div>
-      <div class="p-2"><strong>Identifier:</strong><br/><span class="badge badge-primary badge-info badge-large">{{dataPacket.id}}</span></div>
-      <div class="p-2"><strong>Description:</strong><br/>{{dataPacket.description}}</div>
-      <div class="p-2"><strong>Synonyms:</strong><br/>
-        <h5> <span class="badge badge-info badge-large mx-1"
-                   v-for="syn in dataPacket.synonyms">
-          {{syn.val}}</span></h5>
-      </div>
-      <div class="p-2"><strong>Xrefs:</strong><br/>
-        <h5> <span
-            class="badge badge-secondary badge-large mx-1"
-            v-for="eq in xRefs">
-          {{eq}}</span>
-        </h5>
-      </div>
-      <div class="p-2">
-        <table width="100%">
-          <col width="60%">
-          <col width="20%">
-          <col width="20%">
-          <tr>
-            <th><strong>Association</strong></th>
-            <th><strong>Count</strong></th>
-          </tr>
-          <tr style="height: 45px" v-for="(value, index) in dataPacket.counts">
-            <td>{{firstCap(index)}}</td>
-            <td><a target="_blank" :href="monarchUrlAnchored(index)">{{value.totalCount}}</a>
-            </td>
-            <td><span style="float:right" v-if="index==='literature'">
-              <a target="_blank" class="btn btn-outline-info btn-sm my-2" v-b-tooltip title="Retrieves co-mentions of genes, phentoypes, diseases, variants, etc. in the literature" :href="hippoUrl">Hippo Literature Query</a></span></td>
-          </tr>
-        </table>
+      <div class="row">
+        <div class="col-4">
+         <h3><strong>Description: </strong></h3>
+          <br/><p style="font-size: 1.3em">{{dataPacket.description}}</p>
+        </div>
+        <div class="col-4">
+          <h3><strong>Literature Co-Mentions: </strong></h3>
+          <div class="mt-3">
+          <a
+              target="_blank"
+              class="btn btn-outline-info btn-block my-2"
+              v-b-tooltip
+              title="Retrieves co-mentions of genes, phentoypes, diseases, variants, etc. in the literature"
+              :href="hippoUrl">Hippo Literature Query
+          </a>
+          </div>
+        </div>
+        <div class="col-4">
+          <h3><strong>Xrefs:</strong>
+            <h5> <span
+                class="badge badge-secondary badge-large mx-1"
+                v-for="eq in xRefs">{{eq}}</span>
+            </h5>
+          </h3>
+        </div>
       </div>
     </div>
   </div>
@@ -101,17 +111,6 @@
         }
         catch (e) {
           console.log('nodeResponse ERROR', e, this);
-        }
-      },
-      firstCap(term) {
-        return  term.charAt(0).toUpperCase() + term.substr(1);
-      },
-      monarchUrlAnchored(cardType) {
-        if (cardType === 'literature') {
-          return `https://monarchinitiative.org/${this.category}/${this.curie}#${cardType}`;
-        }
-        else{
-          return `https://monarchinitiative.org/${this.category}/${this.curie}#${cardType}s`;
         }
       },
     },

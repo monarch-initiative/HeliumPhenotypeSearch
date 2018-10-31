@@ -1,6 +1,6 @@
 <template>
   <div class="home container-fluid p-4">
-    <div class="card bg-light mb-3">
+    <div class="card bg-light mb-2">
       <div class="card-body"><h2><strong>Helium Phenotype Search</strong></h2>
         <monarch-autocomplete
             :home-search="true"
@@ -20,14 +20,19 @@
       </div>
     </div>
     <div v-if="selection" class="row">
-      <div class="col-4" style="padding-right: 4px">
+      <div class="col-12">
         <monarch-associations
             :category="selection.category"
             :curie="selection.curie"
             @monarchInterface="monInterface"
         ></monarch-associations>
       </div>
-      <div class="col-8" style="padding-left: 4px">
+    </div>
+    <div class="row">
+      <div class="col-4" style="padding-right: 4px; padding-top: 8px">
+        <monarch-counts v-if="assetsReady" :counts="closureData"></monarch-counts>
+      </div>
+      <div class="col-8" style="padding-left: 4px; padding-top: 8px">
         <assets-view v-if="assetsReady" :term="closureData"></assets-view>
       </div>
     </div>
@@ -37,6 +42,7 @@
           @resultInterface="emitRowInterface"
           :value="searchMore"></results-table>
     </div>
+
   </div>
 </template>
 
@@ -45,7 +51,8 @@
 import MonarchAutoComplete from '@/components/MonarchAutocomplete.vue';
 import AssetsView from '@/components/AssetsView.vue';
 import MonarchAssociations from "@/components/MonarchAssociations.vue";
-import ResultsTable from "@/components/ResultsTable.vue"
+import ResultsTable from "@/components/ResultsTable.vue";
+import MonarchCounts from "@/components/MonarchCounts.vue";
 
 export default {
   name: 'home',
@@ -73,6 +80,7 @@ export default {
     'monarch-autocomplete': MonarchAutoComplete,
     'assets-view': AssetsView,
     'results-table': ResultsTable,
+    'monarch-counts': MonarchCounts,
   },
   mounted(){
     if (this.$route.params.id) {
