@@ -85,7 +85,7 @@
         fileHits: [],
         assetMappings: [{
           'location': 'Helium',
-          'name': 'NWD100953.recab.cram.crai',
+          'name': 'SET100953.data.seq',
           'study': 'study',
           'terms': [
             {'id': 'HP:0001166', 'label': 'Arachnodactyly'},
@@ -96,7 +96,7 @@
         },
           {
             'location': 'Calcium',
-            'name': 'NWD100953.recab.cram',
+            'name': 'SET100953.seq',
             'study': 'study',
             'terms': [{'id': 'HP:0001166', 'label': 'Arachnodactyly'},
               {'id': 'HP:0004935', 'label': 'Pulmonary artery atresia'},
@@ -106,7 +106,7 @@
           },
           {
             'location': 'Helium',
-            'name': 'NWD119836.recab.cram.crai',
+            'name': 'SET119836.data.seq',
             'study': 'study',
             'terms': [
               {
@@ -121,7 +121,7 @@
           },
           {
             'location': 'Calcium',
-            'name': 'NWD119836.recab.cram',
+            'name': 'SET119836.seq',
             'study': 'study',
             'terms': [
               {
@@ -134,7 +134,7 @@
           },
           {
             'location': 'Helium',
-            'name': 'NWD119844.recab.cram.crai',
+            'name': 'SET119844.data.seq',
             'study': 'study',
             'terms': [
               {'id': 'HP:0030148', 'label': 'Heart murmur'},
@@ -144,7 +144,7 @@
           },
           {
             'location': 'Calcium',
-            'name': 'NWD119844.recab.cram',
+            'name': 'SET119844.seq',
             'study': 'study',
             'terms': [
               {'id': 'HP:0030148', 'label': 'Heart murmur'},
@@ -154,7 +154,7 @@
           },
           {
             'location': 'Helium',
-            'name': 'NWD136397.recab.cram.crai',
+            'name': 'SET136397.data.seq',
             'study': 'study',
             'terms': [
               {'id': 'MONDO:0005068', 'label': 'heart attack'},
@@ -164,7 +164,7 @@
           },
           {
             'location': 'Calcium',
-            'name': 'NWD136397.recab.cram',
+            'name': 'SET136397.seq',
             'study': 'study',
             'terms': [{'id': 'MONDO:0005068', 'label': 'heart attack'},
               {'id': 'HP:0001640', 'label': 'enlarged heart'}],
@@ -172,7 +172,7 @@
           },
           {
             'location': 'Helium',
-            'name': 'NWD146103.recab.cram',
+            'name': 'SET146103.seq',
             'study': 'study',
             'terms': [
               {'id': 'HP:0001161', 'label': 'extra finger'},
@@ -182,7 +182,7 @@
           },
           {
             'location': 'Calcium',
-            'name': 'NWD146103.recab.cram.crai',
+            'name': 'SET146103.data.seq',
             'study': 'study',
             'terms': [
               {'id': 'HP:0001161', 'label': 'extra finger'},
