@@ -7,33 +7,32 @@
             :auto-focus="true"
             @interface="emitInterface"
         />
-        <!--<router-link-->
-            <!--class="btn btn-sm btn-outline-info"-->
-            <!--style="margin-top: 10px; margin-right: 3px"-->
-            <!--:to="exampleUrls.example1.id">{{exampleUrls.example1.name}}-->
-        <!--</router-link>-->
-        <!--<router-link-->
-            <!--class="btn btn-sm btn-outline-info"-->
-            <!--style="margin-top: 10px; margin-right: 3px"-->
-            <!--:to="exampleUrls.example2.id">{{exampleUrls.example2.name}}-->
-        <!--</router-link>-->
       </div>
     </div>
     <div v-if="selection" class="row">
       <div class="col-12">
         <monarch-associations
-            :category="selection.category"
             :curie="selection.curie"
+            :category="selection.category"
             @monarchInterface="monInterface"
         ></monarch-associations>
       </div>
     </div>
     <div class="row">
       <div class="col-4" style="padding-right: 4px; padding-top: 8px">
-        <monarch-counts v-if="assetsReady" :counts="closureData"></monarch-counts>
+        <monarch-counts
+            v-if="assetsReady"
+            :curie="selection.curie"
+            :category="selection.category"
+        >
+        </monarch-counts>
       </div>
       <div class="col-8" style="padding-left: 4px; padding-top: 8px">
-        <assets-view v-if="assetsReady" :term="closureData"></assets-view>
+        <assets-view
+            v-if="assetsReady"
+            :term="selection"
+        >
+        </assets-view>
       </div>
     </div>
 
@@ -56,7 +55,7 @@ import MonarchCounts from "@/components/MonarchCounts.vue";
 
 export default {
   name: 'home',
-  data(){
+  data() {
     return {
       exampleUrls: {
         'example1': {
@@ -93,15 +92,15 @@ export default {
     },
   },
   methods: {
-    emitRowInterface(payload) {
-      this.selected = true;
-      this.selection = payload;
-
-    },
     monInterface(payload) {
       this.closureData = payload;
       this.assetsReady = true;
       this.$router.push(`/${this.closureData.id}`);
+    },
+    emitRowInterface(payload) {
+      this.selected = true;
+      this.selection = payload;
+      this.$router.push(`/${this.selection.curie}`);
     },
     emitInterface(payload) {
       if (payload.selected) {
@@ -129,3 +128,6 @@ export default {
   },
 }
 </script>
+<style>
+
+</style>

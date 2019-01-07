@@ -1,6 +1,7 @@
 <template>
   <div class="card bg-light mb-3" style="height: 100%;">
-    <div class="card-header"><strong>CommonsShare Data Assets</strong>
+    <div class="card-header">
+      <strong>CommonsShare Data Assets</strong>
       <img style="max-height: 20px; float:right" src="../assets/img/CommonsShare.png">
     </div>
     <div class="card-body">
@@ -30,7 +31,8 @@
           <div v-for="oterm in data.item.other_terms">
             <div
                 class="py-1">
-              <router-link :to="oterm.id"><span class="badge badge-secondary">{{oterm.label}} <br/> {{oterm.id}}</span></router-link>
+              <router-link :to="oterm.id"><span class="badge badge-secondary">{{oterm.label}} <br/> {{oterm.id}}</span>
+              </router-link>
             </div>
           </div>
         </template>
@@ -83,7 +85,8 @@
           }
         ],
         fileHits: [],
-        assetMappings: [{
+        assetMappings: [
+          {
           'location': 'Helium',
           'name': 'SET100953.data.seq',
           'study': 'study',
@@ -198,25 +201,25 @@
     },
     watch: {
       term() {
-        this.fileHits = [];
         this.checkMappings();
+        this.fileHits = [];
       },
     },
     methods: {
       checkMappings() {
-        if (this.term.id === heartDisease.curie) {
+        if (this.term.curie === heartDisease.curie) {
           this.queryMeta(heartDisease);
         }
-        else if (this.term.id === skeletalDisease.curie) {
+        else if (this.term.curie === skeletalDisease.curie) {
           this.queryMeta(skeletalDisease);
         }
-        else if (heartDisease.descendents.includes(this.term.id)) {
+        else if (heartDisease.descendents.includes(this.term.curie)) {
           this.queryMeta(heartDisease);
         }
-        else if (skeletalDisease.descendents.includes(this.term.id)) {
+        else if (skeletalDisease.descendents.includes(this.term.curie)) {
           this.queryMeta(skeletalDisease);
         } else {
-          this.queryMeta({descendents: [this.term.id]})
+          this.queryMeta({descendents: [this.term.curie]})
         }
       },
       queryMeta(closure) {

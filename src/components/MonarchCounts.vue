@@ -18,40 +18,67 @@
       </template>
       <template slot="count" slot-scope="data">
         <div class="py-2">
-          <a target="_blank" :href="monarchUrlAnchored(data.item.count.url)">{{data.item.count.count}}</a></div>
+          <a target="_blank" :href="monarchUrlAnchored(data.item.category)">{{data.item.count}}</a></div>
+
       </template>
     </b-table>
     </div>
   </div>
 </template>
 <script>
+  import * as BL from '@/api/BioLink';
+
   export default {
     name: 'MonarchCounts',
     props: {
-      counts: {
-        type: Object,
+      curie: {
+        type: String,
+        required: true,
+      },
+      category: {
+        type: String,
         required: true,
       }
     },
     data() {
       return {
+        countsData: {},
+        items: [],
         fields: [
           {key: 'association', label: 'Association', class: 'bold'},
           {key: 'count', label: 'Count', class: 'bold'}
         ]
       };
     },
-    computed: {
-      items() {
-        return Object.entries(this.counts.counts).map(elem => this.dictToList(elem[0], elem[1]));
-      }
+    mounted() {
+      this.fetchCounts(this.curie, this.category);
     },
     methods: {
+      async fetchCounts(nodeID, nodeType) {
+        try {
+          const searchResponse = await BL.getCountsForNode(nodeID, nodeType);
+          this.countsData = (searchResponse);
+          this.formatCounts();
+        }
+        catch (e) {
+          console.log('nodeResponse ERROR', e, this);
+        }
+      },
+      formatCounts() {
+        Object.entries(this.countsData).forEach((value, key) => {
+          this.items.push(
+            {
+              association: value[0],
+              count: value[1].totalCount
+            }
+          );
+        })
+      },
       firstCap(term) {
         return  term.charAt(0).toUpperCase() + term.substr(1);
       },
       monarchUrlAnchored(cardType) {
-        let url = `https://monarchinitiative.org/${this.counts.categories[0].toLowerCase()}/${this.counts.id}#${cardType}s`;
+        let url = `https://monarchinitiative.org/${this.category.toLowerCase()}/${this.curie}#${cardType}s`;
         if (cardType === 'literature') {
           url = url.substring(0, url.length - 1);
         }

@@ -179,17 +179,14 @@ async function getCounts(nodeId, nodeType, countType) {
   return bioentityResponseData;
 }
 
-async function getCountsForNode(nodeId, nodeType) {
+export async function getCountsForNode(nodeId, nodeType) {
   const associationTypes = nodeAssociationTypes[nodeType];
-
   if (associationTypes) {
     const promisesArray = associationTypes.map((a) => {
       const countPromise = getCounts(nodeId, nodeType, a);
       return countPromise;
     });
-
     const associationsResult = await Promise.all(promisesArray);
-
     const associationsResultMap = {};
     associationTypes.forEach((a, index) => {
       const aResult = associationsResult[index].numFound;
@@ -198,7 +195,6 @@ async function getCountsForNode(nodeId, nodeType) {
         totalCount: aResult
       };
     });
-
     return associationsResultMap;
   }
   console.log('getCountsForNode', nodeId, nodeType, 'NO ASSOCIATIONS KNOWN');
