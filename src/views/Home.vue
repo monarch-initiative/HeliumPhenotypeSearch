@@ -14,14 +14,12 @@
         <monarch-associations
             :curie="selection.curie"
             :category="selection.category"
-            @monarchInterface="monInterface"
         ></monarch-associations>
       </div>
     </div>
-    <div class="row">
+    <div v-if="selection" class="row">
       <div class="col-4" style="padding-right: 4px; padding-top: 8px">
         <monarch-counts
-            v-if="assetsReady"
             :curie="selection.curie"
             :category="selection.category"
         >
@@ -29,17 +27,18 @@
       </div>
       <div class="col-8" style="padding-left: 4px; padding-top: 8px">
         <assets-view
-            v-if="assetsReady"
             :term="selection"
         >
         </assets-view>
       </div>
     </div>
 
-    <div v-if="!selected && searchMore">
+    <div v-if="!selection && searchMore">
       <results-table
           @resultInterface="emitRowInterface"
-          :value="searchMore"></results-table>
+          :value="searchMore"
+      >
+      </results-table>
     </div>
 
   </div>
@@ -52,6 +51,8 @@ import AssetsView from '@/components/AssetsView.vue';
 import MonarchAssociations from "@/components/MonarchAssociations.vue";
 import ResultsTable from "@/components/ResultsTable.vue";
 import MonarchCounts from "@/components/MonarchCounts.vue";
+
+import * as BL from '@/api/BioLink';
 
 export default {
   name: 'home',
@@ -69,9 +70,7 @@ export default {
       },
       selection: "",
       searchMore: "",
-      closureData: {},
       selected: false,
-      assetsReady: false,
     }
   },
   components: {
@@ -87,43 +86,44 @@ export default {
     }
   },
   watch: {
-    '$route.params.id'(id) {
-      this.changeRouted();
+    '$route.params.id'() {
+      if (this.$route.params.id) {
+        this.changeRouted();
+      }
     },
   },
   methods: {
-    monInterface(payload) {
-      this.closureData = payload;
-      this.assetsReady = true;
-      this.$router.push(`/${this.closureData.id}`);
+    async fetchObjectData(curie) {
+      try {
+        this.selection = "";
+        const searchResponse = await BL.getNodeLabelByCurie(curie);
+        this.selection = this.parseObjectData(searchResponse);
+      }
+      catch (e) {
+        console.log('nodeResponse ERROR', e, this);
+      }
+    },
+    parseObjectData(objectData) {
+      return {
+        category: objectData.data.categories.toString(),
+        curie: objectData.data.id,
+        match: objectData.data.label,
+      }
     },
     emitRowInterface(payload) {
-      this.selected = true;
-      this.selection = payload;
-      this.$router.push(`/${this.selection.curie}`);
+      this.$router.push(`/${payload.curie}`);
     },
     emitInterface(payload) {
       if (payload.selected) {
-        this.selected = true;
-        this.selection = payload;
+        this.$router.push(`/${payload.curie}`);
       } else {
-        this.selected = false;
+        this.$router.push(`/`);
+        this.selection = "";
         this.searchMore = payload;
-        this.selection = '';
       }
     },
     changeRouted() {
-      let category = '';
-      if (this.$route.params.id.includes('MONDO')) {
-        category = 'disease';
-      }
-      if (this.$route.params.id.includes('HP')) {
-        category = 'phenotype';
-      }
-      this.selection = {
-        "curie": this.$route.params.id,
-        "category": category,
-      }
+      this.fetchObjectData(this.$route.params.id);
     }
   },
 }

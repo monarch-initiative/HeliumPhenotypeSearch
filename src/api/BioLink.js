@@ -35,12 +35,12 @@ const servers = {
     'search_url': 'https://monarch-solr6-dev.cgrb.oregonstate.edu/solr/search/',
     'owlsim_services_url': 'https://monarch-app-beta.cgrb.oregonstate.edu/owlsim',
     'analytics_id': '',
-    'biolink_url': 'https://api-dev.monarchinitiative.org/api/'
+    'biolink_url': 'https://api.monarchinitiative.org/api/'
   }
 };
 
 
-const serverConfiguration = servers.development;
+const serverConfiguration = servers.cgrb;
 const biolink = serverConfiguration.biolink_url;
 const sciGraph = serverConfiguration.scigraph_url;
 
@@ -163,7 +163,6 @@ async function getCounts(nodeId, nodeType, countType) {
     countType += 's';
   }
   const bioentityUrl = `${biolink}bioentity/${nodeType}/${nodeId}/${countType}`;
-  // console.log('getCounts', nodeId, nodeType, countType);
   const bioentityParams = {
     fetch_objects: false,
     unselect_evidence: true,
@@ -173,13 +172,13 @@ async function getCounts(nodeId, nodeType, countType) {
   };
   const bioentityResp = await axios.get(bioentityUrl, { params: bioentityParams });
   const bioentityResponseData = bioentityResp.data;
-  // console.log(bioentityResp.request.responseURL);
-  // console.log(bioentityResponseData);
+
 
   return bioentityResponseData;
 }
 
 export async function getCountsForNode(nodeId, nodeType) {
+  nodeType = nodeType.toLowerCase();
   const associationTypes = nodeAssociationTypes[nodeType];
   if (associationTypes) {
     const promisesArray = associationTypes.map((a) => {
@@ -327,6 +326,9 @@ export async function getSearchTermSuggestions(term, selected, numRows='10') {
   if (selected.toString() === 'Phenotype') {
     params.append('prefix', 'HP');
     params.append('prefix', 'MONDO');
+    params.append('prefix', 'EFO');
+    params.append('prefix', 'OBA');
+    params.append('prefix', 'NCIT');
 
   }
   params.append('prefix', '-OMIA');
@@ -398,7 +400,7 @@ export function getNodeLabelByCurie(curie) {
 }
 
 export function getDbXrefs(curie) {
-  const baseUrl = `${sciGraph}graph/${curie}`;
+  const baseUrl = `https://scigraph-ontology.monarchinitiative.org/scigraph/graph/${curie}`;
   const returnedPromise = new Promise((resolve, reject) => {
     axios.get(baseUrl)
       .then((resp) => {
@@ -442,6 +444,39 @@ export function comparePhenotypes(phenotypesList, geneList, species = 'all', mod
   });
   return returnedPromise;
 }
+
+export async function getAssettsCurie(curie) {
+  const solrUrl = 'http://ec2-3-82-114-228.compute-1.amazonaws.com/solr/genophenosearch-core/select/';
+  // const solrUrl = `http://localhost:5000/solr/genophenosearch-core/select`;
+  const solrParams = {
+    defType: 'edismax',
+    fl:'*,score',
+    facet: true,
+    q: `isa_closure:${curie}`,
+    wt: 'json'
+  };
+  const solrResp = await axios.get(solrUrl, { params: solrParams });
+  const solrResponseData = solrResp.data;
+
+  return solrResponseData;
+}
+
+export async function getAssettsTerm(term) {
+  const solrUrl = 'http://ec2-3-82-114-228.compute-1.amazonaws.com/solr/genophenosearch-core/select/';
+  // const solrUrl = `http://localhost:5000/solr/genophenosearch-core/select`;
+  const solrParams = {
+    defType: 'edismax',
+    fl:'*,score',
+    facet: true,
+    q: `isa_closure_label:${term}`,
+    wt: 'json'
+  };
+  const solrResp = await axios.get(solrUrl, { params: solrParams });
+  const solrResponseData = solrResp.data;
+
+  return solrResponseData;
+}
+
 
 export function debugServerName() {
   return (serverConfiguration.app_base.length > 0)
