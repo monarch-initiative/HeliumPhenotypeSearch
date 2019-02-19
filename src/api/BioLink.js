@@ -446,7 +446,7 @@ export function comparePhenotypes(phenotypesList, geneList, species = 'all', mod
 }
 
 export async function getAssettsCurie(curie) {
-  const solrUrl = 'http://ec2-3-82-114-228.compute-1.amazonaws.com/solr/genophenosearch-core/select/';
+  const solrUrl = 'https://deepakunni3.com/solr/genophenosearch-core/select/';
   // const solrUrl = `http://localhost:5000/solr/genophenosearch-core/select`;
   const solrParams = {
     defType: 'edismax',
@@ -462,7 +462,7 @@ export async function getAssettsCurie(curie) {
 }
 
 export async function getAssettsTerm(term) {
-  const solrUrl = 'http://ec2-3-82-114-228.compute-1.amazonaws.com/solr/genophenosearch-core/select/';
+  const solrUrl = 'https://deepakunni3.com/solr/genophenosearch-core/select/';
   // const solrUrl = `http://localhost:5000/solr/genophenosearch-core/select`;
   const solrParams = {
     defType: 'edismax',
