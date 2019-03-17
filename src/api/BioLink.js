@@ -49,9 +49,6 @@ function getBiolinkAnnotation(cardType) {
   if (cardType === 'anatomy') {
     result = 'expression/anatomy';
   }
-  else if (cardType === 'literature') {
-    result = cardType;
-  }
   else if (cardType === 'function') {
     result = cardType;
   }
@@ -81,7 +78,7 @@ const nodeAssociationTypes = {
     'model',
     'variant',
     'genotype',
-    'literature'
+    'publication'
   ],
 
   function: [
@@ -94,7 +91,7 @@ const nodeAssociationTypes = {
     'model',
     'variant',
     'genotype',
-    'literature'
+    'publication'
   ],
 
   genotype: [
@@ -103,7 +100,7 @@ const nodeAssociationTypes = {
     'phenotype',
     'model',
     'variant',
-    'literature'
+    'publication'
   ],
 
   homolog: [
@@ -114,7 +111,7 @@ const nodeAssociationTypes = {
     'gene'
   ],
 
-  literature: [
+  publication: [
     'disease'
   ],
 
@@ -124,7 +121,7 @@ const nodeAssociationTypes = {
     'genotype',
     'phenotype',
     'variant',
-    'literature'
+    'publication'
   ],
 
   orthoPhenotype: [
@@ -145,7 +142,7 @@ const nodeAssociationTypes = {
     'gene',
     'genotype',
     'variant',
-    'literature'
+    'publication'
   ],
 
   variant: [
@@ -154,14 +151,12 @@ const nodeAssociationTypes = {
     'phenotype',
     'model',
     'genotype',
-    'literature'
+    'publication'
   ]
 };
 
 async function getCounts(nodeId, nodeType, countType) {
-  if (countType !== 'literature') {
-    countType += 's';
-  }
+  countType += 's';
   const bioentityUrl = `${biolink}bioentity/${nodeType}/${nodeId}/${countType}`;
   const bioentityParams = {
     fetch_objects: false,
