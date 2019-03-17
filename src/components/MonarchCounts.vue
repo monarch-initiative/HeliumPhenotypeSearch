@@ -94,9 +94,6 @@
       },
       monarchUrlAnchored(cardType) {
         let url = `https://monarchinitiative.org/${this.category.toLowerCase()}/${this.curie}#${cardType}s`;
-        if (cardType === 'literature') {
-          url = url.substring(0, url.length - 1);
-        }
         return url;
       },
       dictToList(key, value) {
