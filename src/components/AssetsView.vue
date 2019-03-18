@@ -5,11 +5,18 @@
       <img style="max-height: 20px; float:right" src="../assets/img/CommonsShare.png">
     </div>
     <div class="card-body">
+      <b-pagination
+        v-model="currentPage"
+        :total-rows="rows"
+        :per-page="perPage"
+      />
       <b-table
           small
           hover
           :items="items"
           :fields="fields"
+          :per-page="perPage"
+          :current-page="currentPage"
       >
         <!-- A virtual column -->
         <template slot="study" slot-scope="data">
@@ -159,6 +166,8 @@
         },
         dataPacketCurie: '',
         dataPacketTerm: '',
+        perPage: 10,
+        currentPage: 1,
         items: [],
         fields: [
           {
@@ -178,6 +187,11 @@
           }
         ],
       };
+    },
+    computed: {
+      rows() {
+        return this.items.length
+      }
     },
     mounted() {
       this.gatherData();
@@ -245,5 +259,3 @@
 <style>
   .fieldHeaders { font-weight: bold; }
 </style>
-
-

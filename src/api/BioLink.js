@@ -446,6 +446,7 @@ export async function getAssettsCurie(curie) {
   const solrParams = {
     defType: 'edismax',
     fl:'*,score',
+    rows: 10000,
     facet: true,
     q: `isa_closure:${curie}`,
     wt: 'json'
