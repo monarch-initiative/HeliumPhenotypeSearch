@@ -22,6 +22,9 @@
         <template slot="study" slot-scope="data">
           <a :href="data.item.url">{{data.item.study}}</a>
         </template>
+        <template slot="dataset" slot-scope="data">
+          <a :href="data.item.dataset_url">{{data.item.dataset}}</a>
+        </template>
         <template slot="matching_tag" slot-scope="data">
           <router-link :to="data.item.matching_tag.id"><span class="badge badge-primary badge-info">{{data.item.matching_tag.label}}<br/>{{data.item.matching_tag.id}}</span>
           </router-link>
@@ -176,6 +179,11 @@
             class: 'fieldHeaders',
           },
           {
+            key: 'dataset',
+            label: 'Dataset',
+            class: 'fieldHeaders'
+          },
+          {
             key: 'matching_tag',
             label: 'Matching Term',
             class: 'fieldHeaders',
@@ -242,7 +250,9 @@
           this.items.push(
             {
               study: elem.study_accession,
-              url: elem.study_dataset_url,
+              url: elem.study_url,
+              dataset: elem.study_dataset_accession,
+              dataset_url: elem.study_dataset_url,
               matching_tag: {
                 id: elem.ontology_class,
                 label: this.termMap[elem.ontology_class],
