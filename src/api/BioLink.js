@@ -35,7 +35,7 @@ const servers = {
     'search_url': 'https://monarch-solr6-dev.cgrb.oregonstate.edu/solr/search/',
     'owlsim_services_url': 'https://monarch-app-beta.cgrb.oregonstate.edu/owlsim',
     'analytics_id': '',
-    'biolink_url': 'https://api.monarchinitiative.org/api/'
+    'biolink_url': 'https://api-dev.monarchinitiative.org/api/'
   }
 };
 
@@ -196,6 +196,11 @@ export async function getCountsForNode(nodeId, nodeType) {
 }
 
 export async function getNodeSummary(nodeId, nodeType) {
+  if(nodeType.indexOf(',') != -1) {
+    // quick fix for when a node has more than one category
+    nodeType = nodeType.split(',')[0];
+  }
+
   const bioentityUrl = `${biolink}bioentity/${nodeType}/${nodeId}`;
   // console.log('getNodeSummary bioentityUrl', nodeId, nodeType, bioentityUrl);
   const bioentityParams = {
