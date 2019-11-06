@@ -105,7 +105,7 @@ export default {
     },
     parseObjectData(objectData) {
       return {
-        category: objectData.data.categories.toString(),
+        category: objectData.data.category.toString(),
         curie: objectData.data.id,
         match: objectData.data.label,
       }
